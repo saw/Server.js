@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Multiplication Tables</title>
+</head>
+<body>
+<h1>{{message}}</h1>
+<div id="table">
+     {{table}}   
+</div>
+
+
+<div id="form">
+    <form action="{{action}}" method="get">
+        <p><legend>Redraw the table with a new length:</legend></p>
+        <label for="length">New Length</label>
+        <input type="text" name="length" value="{{length}}" id="length" />
+        <label for="onserver">Compute on server</label><input id="onserver" type="checkbox" name="onserver" value="true" id="onserver">
+        
+        <p><input type="submit" value="Continue &rarr;" /></p>
+    </form>
+</div>
+
+</body>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?3.0.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    YUI().use('io-base', 'node', 'json', function(Y) {
+        var uri = "{{action}}?rpc=true";
+        
+        //out puts multidimensional array containing multiplication tables
+        {{mTable}}
+        
+        {{htmlTable}}
+        
+        function complete(id, o, args){
+            var data = Y.JSON.parse(o.responseText);
+            Y.one('#table').set('innerHTML', htmlTable(data.table));
+        }
+        
+        function makeRequest(){
+            var req = Y.io(uri);
+        }
+        
+        Y.on('io:complete', complete, this);
+        
+        Y.one('#form').on('submit', function(e){
+            e.preventDefault();
+            var length = e.target.query('#length').get('value'),
+            onserver = e.target.query('#onserver').get('checked');
+            if(!onserver){
+                Y.one('#table').set('innerHTML', htmlTable(mTable(length)));
+            }else{
+                uri += '&length='+length;
+                makeRequest();
+            }
+            
+        });
+    });
+</script>
+</html>
