@@ -42,7 +42,7 @@ exports.getModule = function(request){
         sys.puts('ok');
         body = c;
         
-        var arr = body.replace(/(?:\{\{)(.+)\}\}/g, function(match, name){
+        var arr = body.replace(/(?:\{\{)(.+)(?:\}\})/g, function(match, name){
             if(data[name]){
                 return data[name];
             }else{
