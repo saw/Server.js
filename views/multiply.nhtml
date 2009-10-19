@@ -7,6 +7,7 @@
 </head>
 <body>
 <h1>{{message}}</h1>
+<p>This is an example of the benefits of JS on the server. This page draws a multiplication table. The cool thing is that the functions that render the table to html and generate the table data are passed through to the client, so they can be executed again with out a round trip. But if you like, you can execute this module again "rpc" style, in which only the data that would normally be passed to the viewLoader is passed directly back to the client.</p>
 <div id="table">
      {{table}}   
 </div>

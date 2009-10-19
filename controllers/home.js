@@ -36,7 +36,9 @@ exports.getModule = function(request, rpc){
         
         newsurl:'/news',
         
-        messagetype:'page'
+        messagetype:'page',
+        
+        multiply: '/multiply'
         
     };
     

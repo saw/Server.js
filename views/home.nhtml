@@ -10,6 +10,7 @@
 <p>This is a {{messagetype}}.</p>
 <p>Click <a href="{{newsurl}}">here for a different page</a></p>
 <p>Click <a id="link" href="/">here to make an rpc call to the module that drew page.</a></p>
+<p>Why not play with a <a href="{{multi}}">multiplication table?</a></p>
 <pre id="data"></p>
 </body>
 <!-- JS -->

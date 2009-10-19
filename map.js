@@ -10,7 +10,7 @@ var uris = {
         param:{}
     },
     
-    '/foo':{
+    '/multi':{
         module:'multiply'
     }
     
