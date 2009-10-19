@@ -54,6 +54,7 @@ function htmlTable(table){
     
 }
 
+//implement the interface
 exports.getModule = function(request, rpc){
     
     var p = new node.Promise();
@@ -95,11 +96,17 @@ exports.getModule = function(request, rpc){
         
         length:length,
         
+        //these functions are passed through to the client to handle data 
+        //refresh
         htmlTable:htmlTable,
+        
         mTable:mTable
         
     };
     
+    //basic view handling code,
+    //not a lot automated, a controller should decide which view to return
+    //if any
     if(rpc){
         setTimeout(function(){
             body = JSON.stringify(data);

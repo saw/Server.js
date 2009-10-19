@@ -22,21 +22,26 @@
         <p><input type="submit" value="Continue &rarr;" /></p>
     </form>
 </div>
-
+<h3>Server Response</h3>
+<div id="response">
+    
+</div>
 </body>
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?3.0.0/build/yui/yui-min.js"></script>
 <script type="text/javascript" charset="utf-8">
     YUI().use('io-base', 'node', 'json', function(Y) {
         var uri = "{{action}}?rpc=true";
         
-        //out puts multidimensional array containing multiplication tables
+        //outputs multidimensional array containing multiplication tables
         {{mTable}}
         
+        //renders html table from multidimensional array
         {{htmlTable}}
         
         function complete(id, o, args){
             var data = Y.JSON.parse(o.responseText);
             Y.one('#table').set('innerHTML', htmlTable(data.table));
+            Y.one('#response').set('innerHTML', '<textarea rows="20" cols="80">'+o.responseText+'</textarea>');
         }
         
         function makeRequest(){
@@ -51,6 +56,7 @@
             onserver = e.target.query('#onserver').get('checked');
             if(!onserver){
                 Y.one('#table').set('innerHTML', htmlTable(mTable(length)));
+                Y.one('#response').set('innerHTML', '(no request made)');
             }else{
                 uri += '&length='+length;
                 makeRequest();

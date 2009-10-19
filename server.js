@@ -7,6 +7,9 @@ var sys = require("/sys.js"),
 function handleRequest(request, response){
     var path = request.uri.path;
      var r = response;
+     
+    sys.puts('request recieved. Data:');
+    sys.puts(JSON.stringify(request));
     if(map.uris[path]){
         try{
             sys.puts('getting mod');
