@@ -3,9 +3,10 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Test Templae</title>
+	<title>Woo!</title>
 </head>
 <body>
-Hello, world!
+<h1>{{message}}</h1>
+<p>This is a {{messagetype}} from beyond the grave!</p>
 </body>
 </html>

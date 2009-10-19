@@ -1,4 +1,6 @@
 var viewLoader = require('../helpers/viewLoader.js');
+sys = require("/sys.js"),
+utils = require("/utils.js");
 
 function bind (o, fn) {
   return function () {
@@ -14,6 +16,7 @@ exports.getModule = function(request){
     var body = 'foo';
     var headers = {};
     
+    sys.puts('ok');
     
     var ret = {
         
@@ -27,10 +30,35 @@ exports.getModule = function(request){
         
     };
     
-    viewLoader.load('home', {foo:'bar'}).addCallback(function(f){
-       p.emitSuccess(ret); 
+    var data = {
+        
+        message:'Hello sir'
+        
+    };
+    
+    var f = node.fs.cat('views/home.nhtml');
+    
+    f.addCallback(function(c){
+        sys.puts('ok');
+        body = c;
+        
+        var arr = body.replace(/(?:\{\{)(.+)\}\}/g, function(match, name){
+            if(data[name]){
+                return data[name];
+            }else{
+                return name;
+            }
+        });
+
+        body = arr;
+        p.emitSuccess(ret);
     });
     
+    f.addErrback(function(c){
+        sys.puts('fail');
+        body = JSON.stringify(c);
+        p.emitSuccess(ret); 
+    });
     return p;
     
 }
