@@ -37,29 +37,7 @@ exports.getModule = function(request){
         
     };
     
-    var f = node.fs.cat('views/news.nhtml');
-    
-    f.addCallback(function(c){
-        sys.puts('ok');
-        body = c;
-        
-        var arr = body.replace(/(?:\{\{)(.+)(?:\}\})/g, function(match, name){
-            if(data[name]){
-                return data[name];
-            }else{
-                return name;
-            }
-        });
 
-        body = arr;
-        p.emitSuccess(ret);
-    });
-    
-    f.addErrback(function(c){
-        sys.puts('fail');
-        body = JSON.stringify(c);
-        p.emitSuccess(ret); 
-    });
     return p;
     
 }
