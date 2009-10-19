@@ -92,7 +92,7 @@ exports.getModule = function(request, rpc){
         
         table: t,
         
-        action:'foo',
+        action:'/multi',
         
         length:length,
         
