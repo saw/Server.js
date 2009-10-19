@@ -7,6 +7,32 @@
 </head>
 <body>
 <h1>{{message}}</h1>
-<p>This is a {{messagetype}} from beyond the grave!</p>
+<p>This is a {{messagetype}}.</p>
+<p>Click <a href="{{newsurl}}">here for a different page</a></p>
+<p>Click <a id="link" href="/">here to make an rpc call to the module that drew page.</a></p>
+<pre id="data"></p>
 </body>
+<!-- JS -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?3.0.0/build/yui/yui-min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    YUI().use('io-base', 'node', 'json', function(Y) {
+        var uri = "/?rpc=true";
+        
+        function complete(id, o, args){
+            var data = o.responseText;
+            Y.one('#data').set('innerHTML', data);
+        }
+        
+        function makeRequest(){
+            var req = Y.io(uri);
+        }
+        
+        Y.on('io:complete', complete, this);
+        
+        Y.one('#link').on('click', function(e){
+            e.preventDefault();
+            makeRequest();
+        })
+    });
+</script>
 </html>

@@ -8,6 +8,10 @@ var uris = {
     '/news':{
         module:'news',
         param:{}
+    },
+    
+    '/foo':{
+        module:'multiply'
     }
     
 };

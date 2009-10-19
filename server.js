@@ -10,26 +10,20 @@ function handleRequest(request, response){
     if(map.uris[path]){
         try{
             sys.puts('getting mod');
-            var mod = require('controllers/' + map.uris[path].module + '.js').getModule(request)
+            
+            var rpc = request.uri.params.rpc;
+            
+            var mod = require('controllers/' + map.uris[path].module + '.js').getModule(request, rpc)
             .addCallback(function(obj){
                 r.sendHeader(200, obj.getHeaders());
                 r.sendBody(obj.getBody());
                 r.finish();
             });
         }catch(e){        
-            response.sendHeader(500, {'Content-Type': "text/plain"});
-            response.sendBody("A server error occured:"+ e.message);
+            response.sendHeader(500, {'Content-Type': "text/html"});
+            response.sendBody("<pre>A server error occured:"+ JSON.stringify(e)+"</pre");
             response.finish();
         }
-        
-       
-        
-        // mod.addCallback(function(obj){
-        //     sys.puts('cb...');
-        //     r.sendHeader(200, obj.getHeaders());
-        //     r.sendBody(obj.getBody());
-        //     r.finish();
-        // });
 
         
     }else{

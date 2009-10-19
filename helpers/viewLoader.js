@@ -8,7 +8,7 @@ function loadView(viewName, data){
        
        
     var p = new node.Promise();
-    var f = node.fs.cat('views/news.nhtml');
+    var f = node.fs.cat('views/'+viewName+'.nhtml');
     
     f.addCallback(function(c){
         sys.puts('ok');
