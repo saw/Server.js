@@ -9,7 +9,8 @@ function handleRequest(request, response){
      var r = response;
      
     sys.puts('request recieved. Data:');
-    sys.puts(JSON.stringify(request));
+    var reqString = JSON.stringify(request)
+    sys.puts(reqString);
     if(map.uris[path]){
         try{
             sys.puts('getting mod');
@@ -22,10 +23,15 @@ function handleRequest(request, response){
                 r.sendBody(obj.getBody());
                 r.finish();
             });
-        }catch(e){        
+        }catch(e){
+            
+            
             response.sendHeader(500, {'Content-Type': "text/html"});
-            response.sendBody("<pre>A server error occured:"+ JSON.stringify(e)+"</pre");
+            var err = JSON.stringify(e);
+            response.sendBody("<pre>A server error occured:"+ err+"</pre");
             response.finish();
+            sys.puts('500 error:');
+            sys.puts(err);
         }
 
         
@@ -33,6 +39,7 @@ function handleRequest(request, response){
         response.sendHeader(404);
         response.sendBody('Not Found' + ': '+ path);
         response.finish();
+        sys.puts('////404 not found. ');
     }
     
 
