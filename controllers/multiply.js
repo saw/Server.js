@@ -8,6 +8,8 @@ function bind (o, fn) {
   };
 };
 
+var tableCache = {};
+
 //out puts multidimensional array containing multiplication tables
 function mTable(length){
     var L = length || 10,
@@ -78,9 +80,18 @@ exports.getModule = function(request, rpc){
     
     var length = request.uri.params.length || 10;
     
+    if(length > 100){
+        length = 100;
+        
+    }
     
+    if(tableCache[length]){
+        t = tableCache[length];
+    }else{
+        var t = mTable(length);
+        tableCache[length] = t;
+    }
     
-    var t = mTable(length);
     
     var data = {
         

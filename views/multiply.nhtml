@@ -8,6 +8,7 @@
 <body>
 <h1>{{message}}</h1>
 <p>This is an example of the benefits of JS on the server. This page draws a multiplication table. The cool thing is that the functions that render the table to html and generate the table data are passed through to the client, so they can be executed again with out a round trip. But if you like, you can execute this module again "rpc" style, in which only the data that would normally be passed to the viewLoader is passed directly back to the client.</p>
+<p>The server <strong>will not allow you to ask for lengths greater than 100</strong>. This is because the multiplication table function is recursive and eats memory for lunch. At values of over 2000 the Javascript engine (V8) segfaults. If you want to do it on the client, be my guest, but you might crash your browser.</p>
 <div id="table">
      {{table}}   
 </div>
@@ -33,6 +34,7 @@
     YUI().use('io-base', 'node', 'json', function(Y) {
         var uri = "{{action}}?rpc=true";
         
+        var tableCache = {};
         //outputs multidimensional array containing multiplication tables
         {{mTable}}
         
@@ -56,7 +58,13 @@
             var length = e.target.query('#length').get('value'),
             onserver = e.target.query('#onserver').get('checked');
             if(!onserver){
-                Y.one('#table').set('innerHTML', htmlTable(mTable(length)));
+                if(tableCache[length]){
+                    var tableString = tableCache[length];
+                }else{
+                    tableString = htmlTable(mTable(length));
+                    tableCache[length] = tableString;
+                }
+                Y.one('#table').set('innerHTML', tableString);
                 Y.one('#response').set('innerHTML', '(no request made)');
             }else{
                 uri += '&length='+length;
